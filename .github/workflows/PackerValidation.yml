@@ -1,4 +1,4 @@
-name: Packer File
+name: Packer Validation
 
 on:
   pull_request:
