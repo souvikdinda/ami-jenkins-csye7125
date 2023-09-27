@@ -13,6 +13,11 @@ variable "root_account_id" {
   default = "191434387957"
 }
 
+variable "vaishnavi_root_account_id" {
+  type    = string
+  default = "779915759129"
+}
+
 packer {
   required_plugins {
     amazon = {
@@ -31,7 +36,7 @@ source "amazon-ebs" "jenkins-ami" {
   ami_regions = [
     "${var.aws_region}"
   ]
-  ami_users = ["${var.root_account_id}"]
+  ami_users = ["${var.root_account_id}", "${var.vaishnavi_root_account_id}"]
 
   aws_polling {
     delay_seconds = 120
@@ -42,7 +47,7 @@ source "amazon-ebs" "jenkins-ami" {
     filters = {
       virtualization-type = "hvm"
       name                = "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20230516"
-      root-device-type = "ebs"
+      root-device-type    = "ebs"
     }
     owners      = ["amazon"]
     most_recent = true
