@@ -50,3 +50,6 @@ _This project creates custom AMI to host Jenkins using Packer_
     ```
     packer build ./packer/ami.pkr.hcl
     ```
+
+
+_This project is part of CSYE7125 course_
