@@ -1,4 +1,4 @@
-name: Packer File
+name: AMI Creation
 
 on:
   push:
