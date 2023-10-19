@@ -67,4 +67,4 @@ sudo systemctl restart caddy
 echo "================================="
 echo "Running Docker Image"
 echo "================================="
-sudo docker run -d --rm -p 8080:8080 --restart always --name jenkins jenkins
+sudo docker run -d -p 8080:8080 --restart always --name jenkins jenkins
