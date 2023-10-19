@@ -1,10 +1,9 @@
 credentials:
   system:
     domainCredentials:
-      - credentials:
-          - usernamePassword:
-              scope: GLOBAL
-              id: githubCredentials
-              username: souvikdinda
-              password: password
-              description: github credentials
+    - credentials:
+      - secretText:
+          scope: GLOBAL
+          secret: "${GITHUB_CREDENTIALS}"
+          description: "GitHub access token"
+          id: "github-token"

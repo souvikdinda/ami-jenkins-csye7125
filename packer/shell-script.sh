@@ -23,7 +23,10 @@ sudo apt install docker.io -y
 sudo systemctl start docker
 sudo systemctl enable docker
 sudo usermod -aG docker $USER
-sudo docker build -t jenkins ~/jenkins/Dockerfile
+mv /tmp/Dockerfile ~/Dockerfile
+mv /tmp/jenkins.sh ~/plugins.txt
+mv /tmp/casc.yaml ~/casc.yaml
+sudo docker build --build-arg github_credentials=$github_credentials -t jenkins .
 
 # Install Jenkins
 # echo "================================="
@@ -58,4 +61,4 @@ echo "================================="
 sudo systemctl start caddy
 sudo systemctl enable caddy
 docker run -d --rm -p 8080:8080 --name jenkins jenkins
-sudo systemnctl restart caddy
+sudo systemctl restart caddy
