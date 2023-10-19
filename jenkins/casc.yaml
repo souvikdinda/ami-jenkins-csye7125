@@ -7,3 +7,9 @@ credentials:
           secret: "${GITHUB_CREDENTIALS}"
           description: "GitHub access token"
           id: "github-token"
+
+      - secretText:
+         scope: GLOBAL
+         secret: "${GITHUB_CREDENTIALS}"
+         description: "GitHub access token for webapp-db repository"
+         id: "github-webapp-db-token" 
