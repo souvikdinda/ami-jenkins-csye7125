@@ -18,10 +18,10 @@ variable "vaishnavi_root_account_id" {
   default = "779915759129"
 }
 
-variable "github_credentials" {
-  type    = string
-  default = ""
-}
+# variable "github_credentials" {
+#   type    = string
+#   default = ""
+# }
 
 packer {
   required_plugins {
@@ -70,27 +70,23 @@ source "amazon-ebs" "jenkins-ami" {
 build {
   sources = ["source.amazon-ebs.jenkins-ami"]
 
-  provisioner "file" {
-    source      = "./jenkins/Dockerfile"
-    destination = "/tmp/Dockerfile"
-  }
+  # provisioner "file" {
+  #   source      = "./jenkins/Dockerfile"
+  #   destination = "/tmp/Dockerfile"
+  # }
 
-  provisioner "file" {
-    source      = "./jenkins/casc.yaml"
-    destination = "/tmp/casc.yaml"
-  }
+  # provisioner "file" {
+  #   source      = "./jenkins/casc.yaml"
+  #   destination = "/tmp/casc.yaml"
+  # }
 
-  provisioner "file" {
-    source      = "./jenkins/plugins.txt"
-    destination = "/tmp/plugins.txt"
-  }
-
-  provisioner "shell" {
-    inline = ["echo 'github_credentials: ${var.github_credentials}'"]
-  }
+  # provisioner "file" {
+  #   source      = "./jenkins/plugins.txt"
+  #   destination = "/tmp/plugins.txt"
+  # }
 
   provisioner "shell" {
     script = "./packer/shell-script.sh"
-    environment_vars = ["github_credentials=${var.github_credentials}"]
+    # environment_vars = ["github_credentials=${var.github_credentials}"]
   }
 }
