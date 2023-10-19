@@ -65,7 +65,23 @@ source "amazon-ebs" "jenkins-ami" {
 build {
   sources = ["source.amazon-ebs.jenkins-ami"]
 
+  provisioner "file" {
+    source      = "./jenkins/Dockerfile"
+    destination = "/tmp/Dockerfile"
+  }
+
+  provisioner "file" {
+    source      = "./jenkins/casc.yaml"
+    destination = "/tmp/casc.yaml"
+  }
+
+  provisioner "file" {
+    source      = "./jenkins/plugins.txt"
+    destination = "/tmp/plugins.txt"
+  }
+
   provisioner "shell" {
     script = "./packer/shell-script.sh"
+    environment_vars = ["github_credentials"]
   }
 }
