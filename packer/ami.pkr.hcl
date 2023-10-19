@@ -86,6 +86,10 @@ build {
   }
 
   provisioner "shell" {
+    inline = ["echo 'github_credentials: ${var.github_credentials}'"]
+  }
+
+  provisioner "shell" {
     script = "./packer/shell-script.sh"
     environment_vars = ["github_credentials=${var.github_credentials}"]
   }

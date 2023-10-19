@@ -27,6 +27,7 @@ mv /tmp/Dockerfile ~/Dockerfile
 mv /tmp/plugins.txt ~/plugins.txt
 mv /tmp/casc.yaml ~/casc.yaml
 ls -al
+echo $github_credentials
 sudo docker build --build-arg github_credentials=$github_credentials -t jenkins .
 
 # Install Jenkins
@@ -61,5 +62,9 @@ echo "Starting Caddy"
 echo "================================="
 sudo systemctl start caddy
 sudo systemctl enable caddy
-sudo docker run -d --rm -p 8080:8080 --name jenkins jenkins
 sudo systemctl restart caddy
+
+echo "================================="
+echo "Running Docker Image"
+echo "================================="
+sudo docker run -d --rm -p 8080:8080 --restart always --name jenkins jenkins
