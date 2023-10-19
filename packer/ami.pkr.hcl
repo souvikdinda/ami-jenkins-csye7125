@@ -18,6 +18,11 @@ variable "vaishnavi_root_account_id" {
   default = "779915759129"
 }
 
+variable "github_credentials" {
+  type    = string
+  default = ""
+}
+
 packer {
   required_plugins {
     amazon = {
@@ -82,6 +87,6 @@ build {
 
   provisioner "shell" {
     script = "./packer/shell-script.sh"
-    environment_vars = ["github_credentials"]
+    environment_vars = ["github_credentials=${var.github_credentials}"]
   }
 }
