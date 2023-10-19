@@ -24,7 +24,7 @@ sudo systemctl start docker
 sudo systemctl enable docker
 sudo usermod -aG docker $USER
 mv /tmp/Dockerfile ~/Dockerfile
-mv /tmp/jenkins.sh ~/plugins.txt
+mv /tmp/plugins.txt ~/plugins.txt
 mv /tmp/casc.yaml ~/casc.yaml
 ls -al
 sudo docker build --build-arg github_credentials=$github_credentials -t jenkins .
