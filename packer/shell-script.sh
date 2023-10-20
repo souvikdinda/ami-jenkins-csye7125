@@ -15,21 +15,6 @@ echo "Installing Java 11"
 echo "================================="
 sudo apt install openjdk-11-jdk -y
 
-# Installing Docker
-# echo "================================="
-# echo "Installing Docker"
-# echo "================================="
-# sudo apt install docker.io -y
-# sudo systemctl start docker
-# sudo systemctl enable docker
-# sudo usermod -aG docker $USER
-# mv /tmp/Dockerfile ~/Dockerfile
-# mv /tmp/plugins.txt ~/plugins.txt
-# mv /tmp/casc.yaml ~/casc.yaml
-# ls -al
-# echo $github_credentials
-# sudo docker build --build-arg github_credentials=$github_credentials -t jenkins .
-
 # Install Jenkins
 echo "================================="
 echo "Installing Jenkins"
@@ -45,6 +30,23 @@ echo "Starting Jenkins Agent"
 echo "================================="
 sudo systemctl start jenkins
 sudo systemctl enable jenkins
+
+# Installing Docker
+echo "================================="
+echo "Installing Docker"
+echo "================================="
+sudo apt install docker.io -y
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker $USER
+sudo usermod -aG docker jenkins
+sudo systemctl restart jenkins
+# mv /tmp/Dockerfile ~/Dockerfile
+# mv /tmp/plugins.txt ~/plugins.txt
+# mv /tmp/casc.yaml ~/casc.yaml
+# ls -al
+# echo $github_credentials
+# sudo docker build --build-arg github_credentials=$github_credentials -t jenkins .
 
 # Install caddy
 echo "================================="
