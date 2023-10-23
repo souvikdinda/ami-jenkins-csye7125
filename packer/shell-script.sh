@@ -46,7 +46,12 @@ sudo systemctl restart jenkins
 # mv /tmp/casc.yaml ~/casc.yaml
 # ls -al
 # echo $github_credentials
-# sudo docker build --build-arg github_credentials=$github_credentials -t jenkins .
+# sudo docker build --build-arg github_credentials=123456 \
+    # --build-arg github_creds=123456 \
+    # --build-arg github_username=souvikdinda \
+    # --build-arg quay_username=souvikdinda \
+    # --build-arg quay_creds=qwertyui \
+    # -t jenkins .
 
 # Install caddy
 echo "================================="
