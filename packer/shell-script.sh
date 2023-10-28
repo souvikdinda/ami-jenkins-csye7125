@@ -31,6 +31,16 @@ echo "================================="
 sudo systemctl start jenkins
 sudo systemctl enable jenkins
 
+echo "================================="
+echo "Installing NodeJS"
+echo "================================="
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+source ~/.bashrc
+nvm install node stable -y
+nvm use node
+npm install -g npm@latest -y
+sudo apt install gh -y
+
 # Installing Docker
 echo "================================="
 echo "Installing Docker"
@@ -41,6 +51,8 @@ sudo systemctl enable docker
 sudo usermod -aG docker $USER
 sudo usermod -aG docker jenkins
 sudo systemctl restart jenkins
+
+
 # mv /tmp/Dockerfile ~/Dockerfile
 # mv /tmp/plugins.txt ~/plugins.txt
 # mv /tmp/casc.yaml ~/casc.yaml
