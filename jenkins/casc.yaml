@@ -2,14 +2,16 @@ credentials:
   system:
     domainCredentials:
       - credentials:
-          - string:
-              scope: SYSTEM
-              id: "github-token"
-              secret: "${GITHUB_TOKEN}"
-              description: "GitHub Token"
-
-      # - secretText:
-      #    scope: GLOBAL
-      #    secret: "${GITHUB_CREDENTIALS}"
-      #    description: "GitHub access token for webapp-db repository"
-      #    id: "github-webapp-db-token" 
+          - usernamePassword:
+              scope: GLOBAL
+              id: github_token
+              username: ${GITHUB_USERNAME}
+              password: ${GITHUB_CREDS}
+              description: "Github token for Jenkins"
+          
+          - usernamePassword:
+              scope: GLOBAL
+              id: quay_token
+              username: ${QUAY_USERNAME}
+              password: ${QUAY_CREDS}
+              description: "Quay token for Jenkins"
