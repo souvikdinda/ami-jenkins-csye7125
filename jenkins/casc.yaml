@@ -1,10 +1,5 @@
 jenkins:
   systemMessage: "This Jenkins Instance is managed by CSYE7125 Fall2023 Group 7 Students"
-  tool:
-    git:
-      installations:
-        - home: "git"
-          name: "Default"
   securityRealm:
     local:
       allowsSignup: false
@@ -36,4 +31,4 @@ credentials:
               description: "Quay token for Jenkins"
 
 jobs:
-  - file: /var/jenkins_home/multibranch-pipeline.groovy
+  - file: /var/lib/jenkins/multibranch-pipeline.groovy

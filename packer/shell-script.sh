@@ -47,18 +47,19 @@ sudo apt install jenkins -y
 wget https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/2.12.13/jenkins-plugin-manager-2.12.13.jar
 sudo chmod +x jenkins-plugin-manager-2.12.13.jar
 sudo java -jar ~/jenkins-plugin-manager-2.12.13.jar --war /usr/share/java/jenkins.war --plugin-file /tmp/plugins.txt --plugin-download-directory /var/lib/jenkins/plugins/
-sudo chmod +x /var/lib/jenkins/plugins/*.jpi
+# sudo chmod +x /var/lib/jenkins/plugins/*.jpi
 
 sudo cp /tmp/casc.yaml /var/lib/jenkins/casc.yaml
 sudo cp /tmp/multibranch-pipeline.groovy /var/lib/jenkins/multibranch-pipeline.groovy
 sudo chmod +x /var/lib/jenkins/casc.yaml /var/lib/jenkins/multibranch-pipeline.groovy
 (cd /var/lib/jenkins/ && sudo chown jenkins:jenkins casc.yaml multibranch-pipeline.groovy)
 
-for plugin in /var/lib/jenkins/plugins/*.jpi; do
-    plugin_name=$(basename -s .jpi "$plugin")
-    sudo mkdir -p "/var/lib/jenkins/plugins/$plugin_name"
-    sudo unzip -q "$plugin" -d "/var/lib/jenkins/plugins/$plugin_name"
-done
+# for plugin in /var/lib/jenkins/plugins/*.jpi; do
+#     plugin_name=$(basename -s .jpi "$plugin")
+#     sudo mkdir -p "/var/lib/jenkins/plugins/$plugin_name"
+#     echo "Extracting $plugin_name"
+#     sudo unzip -q "$plugin" -d "/var/lib/jenkins/plugins/$plugin_name"
+# done
 
 sudo chown -R jenkins:jenkins /var/lib/jenkins/plugins/
 
@@ -101,4 +102,12 @@ echo "================================="
 echo "Starting Caddy"
 echo "================================="
 sudo systemctl start caddy
-sudo systemctl enable caddy 
+sudo systemctl enable caddy
+
+echo "================================="
+echo "Printing Creds"
+echo "================================="
+echo $GH_USERNAME
+echo $GH_CREDS
+echo $QUAY_USERNAME
+echo $QUAY_CREDS

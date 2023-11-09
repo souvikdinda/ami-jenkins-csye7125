@@ -21,7 +21,6 @@ ws-cleanup:latest
 groovy:latest
 job-dsl:latest
 workflow-multibranch:latest
-pipeline-multibranch-defaults:latest
 workflow-job:latest
 docker-plugin:latest
 multibranch-scan-webhook-trigger:latest
