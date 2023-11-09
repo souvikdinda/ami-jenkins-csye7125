@@ -18,10 +18,25 @@ variable "vaishnavi_root_account_id" {
   default = "779915759129"
 }
 
-# variable "github_credentials" {
-#   type    = string
-#   default = ""
-# }
+variable GH_USERNAME {
+  type    = string
+  default = ""
+}
+
+variable QUAY_USERNAME {
+  type    = string
+  default = ""
+}
+
+variable GH_CREDS {
+  type    = string
+  default = ""
+}
+
+variable QUAY_CREDS {
+  type    = string
+  default = ""
+}
 
 packer {
   required_plugins {
@@ -70,23 +85,34 @@ source "amazon-ebs" "jenkins-ami" {
 build {
   sources = ["source.amazon-ebs.jenkins-ami"]
 
-  # provisioner "file" {
-  #   source      = "./jenkins/Dockerfile"
-  #   destination = "/tmp/Dockerfile"
-  # }
+  provisioner "file" {
+    source      = "./jenkins/Dockerfile"
+    destination = "/tmp/Dockerfile"
+  }
 
-  # provisioner "file" {
-  #   source      = "./jenkins/casc.yaml"
-  #   destination = "/tmp/casc.yaml"
-  # }
+  provisioner "file" {
+    source      = "./jenkins/casc.yaml"
+    destination = "/tmp/casc.yaml"
+  }
 
-  # provisioner "file" {
-  #   source      = "./jenkins/plugins.txt"
-  #   destination = "/tmp/plugins.txt"
-  # }
+  provisioner "file" {
+    source      = "./jenkins/multibranch-pipeline.groovy"
+    destination = "/tmp/multibranch-pipeline.groovy"
+  }
+
+  provisioner "file" {
+    source      = "./jenkins/plugins.txt"
+    destination = "/tmp/plugins.txt"
+  }
+
+  provisioner "file" {
+    source      = "./jenkins/script.sh"
+    destination = "/tmp/script.sh"
+  
+  }
 
   provisioner "shell" {
     script = "./packer/shell-script.sh"
-    # environment_vars = ["github_credentials=${var.github_credentials}"]
+    environment_vars = ["GH_USERNAME=${ var.GH_USERNAME }", "GH_CREDS=${ var.GH_CREDS }", "QUAY_USERNAME=${ var.QUAY_USERNAME }", "QUAY_CREDS=${ var.QUAY_CREDS }"]
   }
 }

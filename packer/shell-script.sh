@@ -8,12 +8,30 @@ echo "================================="
 echo "Updating yum dependencies"
 echo "================================="
 sudo apt update -y
+sudo apt install zip unzip -y
 
 # Installing Java 11
 echo "================================="
 echo "Installing Java 11"
 echo "================================="
 sudo apt install openjdk-11-jdk -y
+
+# Installing NodeJS
+echo "================================="
+echo "Installing NodeJS"
+echo "================================="
+curl -sL https://deb.nodesource.com/setup_16.x -o /tmp/nodesource_setup.sh
+sudo bash /tmp/nodesource_setup.sh
+sudo apt install nodejs -y
+sudo apt install npm -y
+sudo node -v
+sudo npm -v
+sudo npm install -g semantic-release@17.4.4
+sudo npm install -g @semantic-release/git@9.0.0
+sudo npm install -g @semantic-release/exec@5.0.0
+sudo npm install -g conventional-changelog-conventionalcommits
+sudo npm install -g npm-cli-login
+sudo apt install gh -y
 
 # Install Jenkins
 echo "================================="
@@ -25,21 +43,37 @@ sudo apt update -y
 sudo apt install fontconfig -y
 sudo apt install jenkins -y
 
+# Install Jenkins Plugins
+wget https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/2.12.13/jenkins-plugin-manager-2.12.13.jar
+sudo chmod +x jenkins-plugin-manager-2.12.13.jar
+sudo java -jar ~/jenkins-plugin-manager-2.12.13.jar --war /usr/share/java/jenkins.war --plugin-file /tmp/plugins.txt --plugin-download-directory /var/lib/jenkins/plugins/
+sudo chmod +x /var/lib/jenkins/plugins/*.jpi
+
+sudo cp /tmp/casc.yaml /var/lib/jenkins/casc.yaml
+sudo cp /tmp/multibranch-pipeline.groovy /var/lib/jenkins/multibranch-pipeline.groovy
+sudo chmod +x /var/lib/jenkins/casc.yaml /var/lib/jenkins/multibranch-pipeline.groovy
+(cd /var/lib/jenkins/ && sudo chown jenkins:jenkins casc.yaml multibranch-pipeline.groovy)
+
+for plugin in /var/lib/jenkins/plugins/*.jpi; do
+    plugin_name=$(basename -s .jpi "$plugin")
+    sudo mkdir -p "/var/lib/jenkins/plugins/$plugin_name"
+    sudo unzip -q "$plugin" -d "/var/lib/jenkins/plugins/$plugin_name"
+done
+
+sudo chown -R jenkins:jenkins /var/lib/jenkins/plugins/
+
+echo 'CASC_JENKINS_CONFIG="/var/lib/jenkins/casc.yaml"' | sudo tee -a /etc/environment
+echo 'JAVA_OPTS="-Djenkins.install.runSetupWizard=false"' | sudo tee -a /etc/environment
+sudo sed -i 's/\(JAVA_OPTS=-Djava\.awt\.headless=true\)/\1 -Djenkins.install.runSetupWizard=false/' /lib/systemd/system/jenkins.service
+sudo sed -i '/Environment="JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"/a Environment="CASC_JENKINS_CONFIG=/var/lib/jenkins/casc.yaml"' /lib/systemd/system/jenkins.service
+sudo systemctl daemon-reload
+
+# Start Jenkins
 echo "================================="
 echo "Starting Jenkins Agent"
 echo "================================="
 sudo systemctl start jenkins
 sudo systemctl enable jenkins
-
-echo "================================="
-echo "Installing NodeJS"
-echo "================================="
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-source ~/.bashrc
-nvm install node stable -y
-nvm use node
-npm install -g npm@latest -y
-sudo apt install gh -y
 
 # Installing Docker
 echo "================================="
@@ -51,14 +85,6 @@ sudo systemctl enable docker
 sudo usermod -aG docker $USER
 sudo usermod -aG docker jenkins
 sudo systemctl restart jenkins
-
-
-# mv /tmp/Dockerfile ~/Dockerfile
-# mv /tmp/plugins.txt ~/plugins.txt
-# mv /tmp/casc.yaml ~/casc.yaml
-# ls -al
-# echo $github_credentials
-# sudo docker build --build-arg github_credentials=$github_credentials -t jenkins .
 
 # Install caddy
 echo "================================="
@@ -75,9 +101,4 @@ echo "================================="
 echo "Starting Caddy"
 echo "================================="
 sudo systemctl start caddy
-sudo systemctl enable caddy
-
-# echo "================================="
-# echo "Running Docker Image"
-# echo "================================="
-# sudo docker run -d -p 8080:8080 --restart always --name jenkins jenkins
+sudo systemctl enable caddy 

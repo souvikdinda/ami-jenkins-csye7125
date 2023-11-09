@@ -24,3 +24,4 @@ workflow-multibranch:latest
 pipeline-multibranch-defaults:latest
 workflow-job:latest
 docker-plugin:latest
+multibranch-scan-webhook-trigger:latest
