@@ -44,11 +44,17 @@ sudo apt install fontconfig -y
 sudo apt install jenkins -y
 
 # Install Jenkins Plugins
+echo "================================="
+echo "Installing Jenkins Plugins"
+echo "================================="
 wget https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/2.12.13/jenkins-plugin-manager-2.12.13.jar
 sudo chmod +x jenkins-plugin-manager-2.12.13.jar
 sudo java -jar ~/jenkins-plugin-manager-2.12.13.jar --war /usr/share/java/jenkins.war --plugin-file /tmp/plugins.txt --plugin-download-directory /var/lib/jenkins/plugins/
 # sudo chmod +x /var/lib/jenkins/plugins/*.jpi
 
+echo "================================="
+echo "Placing Jenkins CASC Files"
+echo "================================="
 sudo cp /tmp/casc.yaml /var/lib/jenkins/casc.yaml
 sudo cp /tmp/multibranch-pipeline.groovy /var/lib/jenkins/multibranch-pipeline.groovy
 sudo chmod +x /var/lib/jenkins/casc.yaml /var/lib/jenkins/multibranch-pipeline.groovy
@@ -63,6 +69,9 @@ sudo chmod +x /var/lib/jenkins/casc.yaml /var/lib/jenkins/multibranch-pipeline.g
 
 sudo chown -R jenkins:jenkins /var/lib/jenkins/plugins/
 
+echo "================================="
+echo "Configuring Jenkins Service"
+echo "================================="
 echo 'CASC_JENKINS_CONFIG="/var/lib/jenkins/casc.yaml"' | sudo tee -a /etc/environment
 echo 'JAVA_OPTS="-Djenkins.install.runSetupWizard=false"' | sudo tee -a /etc/environment
 sudo sed -i 's/\(JAVA_OPTS=-Djava\.awt\.headless=true\)/\1 -Djenkins.install.runSetupWizard=false/' /lib/systemd/system/jenkins.service
@@ -85,7 +94,6 @@ sudo systemctl start docker
 sudo systemctl enable docker
 sudo usermod -aG docker $USER
 sudo usermod -aG docker jenkins
-sudo systemctl restart jenkins
 
 # Install caddy
 echo "================================="
@@ -105,9 +113,7 @@ sudo systemctl start caddy
 sudo systemctl enable caddy
 
 echo "================================="
-echo "Printing Creds"
+echo "Restarting Jenkins"
 echo "================================="
-echo $GH_USERNAME
-echo $GH_CREDS
-echo $QUAY_USERNAME
-echo $QUAY_CREDS
+sudo systemctl enable jenkins
+sudo systemctl restart jenkins
