@@ -56,7 +56,7 @@ source "amazon-ebs" "jenkins-ami" {
   ami_regions = [
     "${var.aws_region}"
   ]
-  ami_users = ["${var.root_account_id}", "${var.vaishnavi_root_account_id}"]
+  ami_users = ["${var.root_account_id}", "${var.vaishnavi_root_account_id}", "674687836138"]
 
   aws_polling {
     delay_seconds = 120
