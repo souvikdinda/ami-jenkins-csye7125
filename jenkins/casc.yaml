@@ -25,7 +25,7 @@ credentials:
           
           - usernamePassword:
               scope: GLOBAL
-              id: quay_token
+              id: quay_credentials
               username: ${QUAY_USERNAME}
               password: ${QUAY_CREDS}
               description: "Quay token for Jenkins"
