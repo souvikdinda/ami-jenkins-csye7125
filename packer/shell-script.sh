@@ -95,6 +95,14 @@ sudo systemctl enable docker
 sudo usermod -aG docker $USER
 sudo usermod -aG docker jenkins
 
+# Installing Helm
+echo "================================="
+echo "Installing Helm"
+echo "================================="
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
 # Install caddy
 echo "================================="
 echo "Installing Caddy"
