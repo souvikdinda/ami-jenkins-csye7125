@@ -85,10 +85,10 @@ source "amazon-ebs" "jenkins-ami" {
 build {
   sources = ["source.amazon-ebs.jenkins-ami"]
 
-  provisioner "file" {
-    source      = "./jenkins/Dockerfile"
-    destination = "/tmp/Dockerfile"
-  }
+  # provisioner "file" {
+  #   source      = "./jenkins/Dockerfile"
+  #   destination = "/tmp/Dockerfile"
+  # }
 
   provisioner "file" {
     source      = "./jenkins/casc.yaml"
@@ -105,14 +105,14 @@ build {
     destination = "/tmp/plugins.txt"
   }
 
-  provisioner "file" {
-    source      = "./jenkins/script.sh"
-    destination = "/tmp/script.sh"
+  # provisioner "file" {
+  #   source      = "./jenkins/script.sh"
+  #   destination = "/tmp/script.sh"
   
-  }
+  # }
 
   provisioner "shell" {
     script = "./packer/shell-script.sh"
-    environment_vars = ["GH_USERNAME=${ var.GH_USERNAME }", "GH_CREDS=${ var.GH_CREDS }", "QUAY_USERNAME=${ var.QUAY_USERNAME }", "QUAY_CREDS=${ var.QUAY_CREDS }"]
+    # environment_vars = ["GH_USERNAME=${ var.GH_USERNAME }", "GH_CREDS=${ var.GH_CREDS }", "QUAY_USERNAME=${ var.QUAY_USERNAME }", "QUAY_CREDS=${ var.QUAY_CREDS }"]
   }
 }
