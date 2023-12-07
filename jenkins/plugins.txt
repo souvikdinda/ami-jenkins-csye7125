@@ -23,4 +23,3 @@ job-dsl:latest
 workflow-multibranch:latest
 workflow-job:latest
 docker-plugin:latest
-multibranch-scan-webhook-trigger:latest
