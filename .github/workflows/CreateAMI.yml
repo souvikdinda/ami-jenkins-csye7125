@@ -29,4 +29,5 @@ jobs:
         run: packer init ./packer/ami.pkr.hcl
 
       - name: Packer build
-        run: packer build -var "GH_USERNAME=${{ vars.GH_USERNAME }}" -var "GH_CREDS=${{ secrets.GH_CREDS }}" -var "QUAY_USERNAME=${{ vars.QUAY_USERNAME }}" -var "QUAY_CREDS=${{ secrets.QUAY_CREDS }}" ./packer/ami.pkr.hcl
+        # run: packer build -var "GH_USERNAME=${{ vars.GH_USERNAME }}" -var "GH_CREDS=${{ secrets.GH_CREDS }}" -var "QUAY_USERNAME=${{ vars.QUAY_USERNAME }}" -var "QUAY_CREDS=${{ secrets.QUAY_CREDS }}" ./packer/ami.pkr.hcl
+        run: packer build ./packer/ami.pkr.hcl
