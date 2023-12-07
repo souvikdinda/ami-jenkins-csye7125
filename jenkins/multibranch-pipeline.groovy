@@ -154,6 +154,32 @@ pipelineJob('infra-helm-chart-build') {
     }
 }
 
+pipelineJob('webapp-operator') {
+    displayName('WebApp Operator Build and Deployment')
+    description('Pipeline to build and deploy operator')
+    logRotator {
+        daysToKeep(30)
+        numToKeep(10)
+    }
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/csye7125-fall2023-group07/webapp-operator.git')
+                        credentials('github_token')
+                    }
+                    branch('*/main')
+                }
+                scriptPath('Jenkinsfile')
+            }
+        }
+    }
+    triggers{
+        githubPush()
+    }
+}
+
 // Multibranch Pipelines
 
 // multibranchPipelineJob('webapp-build') {
