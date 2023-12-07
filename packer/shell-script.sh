@@ -69,9 +69,9 @@ sudo chmod +x /var/lib/jenkins/casc.yaml /var/lib/jenkins/multibranch-pipeline.g
 
 sudo chown -R jenkins:jenkins /var/lib/jenkins/plugins/
 
-echo "================================="
-echo "Configuring Jenkins Service"
-echo "================================="
+# echo "================================="
+# echo "Configuring Jenkins Service"
+# echo "================================="
 # echo 'CASC_JENKINS_CONFIG="/var/lib/jenkins/casc.yaml"' | sudo tee -a /etc/environment
 # echo 'JAVA_OPTS="-Djenkins.install.runSetupWizard=false"' | sudo tee -a /etc/environment
 # sudo sed -i 's/\(JAVA_OPTS=-Djava\.awt\.headless=true\)/\1 -Djenkins.install.runSetupWizard=false/' /lib/systemd/system/jenkins.service
@@ -102,6 +102,35 @@ echo "================================="
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
+
+# Installing kubectl
+echo "================================="
+echo "Installing kubectl"
+echo "================================="
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+kubectl version --client
+
+# Installing gcloud
+echo "================================="
+echo "Installing gcloud"
+echo "================================="
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+sudo apt update
+sudo apt install google-cloud-cli
+sudo apt install google-cloud-sdk-gke-gcloud-auth-plugin
+
+# Installing Go & Make
+echo "================================="
+echo "Installing Go & Make"
+echo "================================="
+sudo apt install golang
+sudo apt install make
+export GOPATH=$HOME/go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
 # Install caddy
 echo "================================="

@@ -22,13 +22,6 @@ npm install -g @semantic-release/exec@5.0.0
 npm install -g conventional-changelog-conventionalcommits
 npm install -g npm-cli-login
 
-# Installing Docker
-apt install docker.io -y
-systemctl start docker
-systemctl enable docker
-usermod -aG docker $USER
-usermod -aG docker jenkins
-
 # Installing Helm
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh
